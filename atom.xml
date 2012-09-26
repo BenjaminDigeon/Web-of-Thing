@@ -4,7 +4,7 @@
   <title><![CDATA[Blog du projet Web-of-Thing]]></title>
   <link href="http://BenjaminDigeon.github.com/Web-of-Thing/atom.xml" rel="self"/>
   <link href="http://BenjaminDigeon.github.com/Web-of-Thing/"/>
-  <updated>2012-09-26T17:18:58+02:00</updated>
+  <updated>2012-09-26T17:29:17+02:00</updated>
   <id>http://BenjaminDigeon.github.com/Web-of-Thing/</id>
   <author>
     <name><![CDATA[Benjamin Digeon]]></name>
@@ -12,5 +12,41 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Découverte du microcontrôleur et premiers montages]]></title>
+    <link href="http://BenjaminDigeon.github.com/Web-of-Thing/blog/2012/09/26/decouverte-du-microcontroleur-et-premiers-montages/"/>
+    <updated>2012-09-26T17:21:00+02:00</updated>
+    <id>http://BenjaminDigeon.github.com/Web-of-Thing/blog/2012/09/26/decouverte-du-microcontroleur-et-premiers-montages</id>
+    <content type="html"><![CDATA[
+
+<figure class='code'><figcaption><span>led.cpp ++</span><a href='https://github.com/BenjaminDigeon/Web-of-Thing/blob/master/led.cpp'>led.cpp </a></figcaption> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &quot;mbed.h&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">DigitalOut</span> <span class="n">myled</span><span class="p">(</span><span class="n">LED1</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">myled</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">wait</span><span class="p">(</span><span class="mf">0.2</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">myled</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>      <span class="n">wait</span><span class="p">(</span><span class="mf">0.2</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
 </feed>
