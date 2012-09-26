@@ -14,7 +14,7 @@ int main() {
 		jaune = 1;
 		wait(5);
 		jaune = 0;
-        vert = 1;
-        wait(5);
+		vert = 1;
+		wait(5);
 	}
 }
