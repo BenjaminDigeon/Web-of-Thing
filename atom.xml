@@ -4,7 +4,7 @@
   <title><![CDATA[Blog du projet Web-of-Thing]]></title>
   <link href="http://BenjaminDigeon.github.com/Web-of-Thing//atom.xml" rel="self"/>
   <link href="http://BenjaminDigeon.github.com/Web-of-Thing//"/>
-  <updated>2012-10-01T10:18:18+02:00</updated>
+  <updated>2012-10-11T16:04:03+02:00</updated>
   <id>http://BenjaminDigeon.github.com/Web-of-Thing//</id>
   <author>
     <name><![CDATA[Benjamin Digeon]]></name>
@@ -12,6 +12,123 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Chaîne de compilation]]></title>
+    <link href="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/10/10/chaine-de-compilation/"/>
+    <updated>2012-10-10T15:28:00+02:00</updated>
+    <id>http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/10/10/chaine-de-compilation</id>
+    <content type="html"><![CDATA[<p>Afin de mettre en place notre chaine de compilation pour processeur ARM (cortex-M3), nous avons cherché les différentes méthodes possibles.</p>
+
+<p>Plusieurs chaînes de compilation sont listés sur le <a href="https://mbed.org/handbook/Exporting-to-offline-toolchains">wiki du site mbed.org</a>.</p>
+
+<p>Mais ces méthodes ne se font que via l&#8217;utilisation de la librairie MBED, qui offre une abstraction trop élevé pour notre projet.</p>
+
+<p>Sous les conseils de notre enseignant de TD, nous avons opté pour la solution regroupant le compilateur arm-none-eabi-gcc et la la librairie RFLPC.</p>
+
+<h2>Installation de arm-none-eabi-gcc sous MacOSx</h2>
+
+<p>L&#8217;installation se fait rapidement et simplement avec MacPort en lançant la commande suivante :</p>
+
+<pre><code>sudo port install arm-none-eabi-gcc
+</code></pre>
+
+<h2>Installation de arm-none-eabi-gcc sous Linux</h2>
+
+<p>Nous avons tout d&#8217;abord essayé de l&#8217;installer via les sources fourni dans <a href="http://www.lifl.fr/~marquet/cnl/pje-wot/wot5-summon-tool-chain+rflpc.tgz">l&#8217;archive</a> mis à disposition par Mr Marquet.</p>
+
+<p>Mais à cause d&#8217;une erreur lors de l&#8217;installation nous n&#8217;avons pas réussi à aller jusqu&#8217;au bout, nous avons donc télécharger directement <a href="http://goo.gl/J4uuF">le binaire du compilateur</a>.</p>
+
+<p>On ajoute la ligne suivante dans le fichier .bashrc dans le but de pouvoir acceder facilement au compilateur.</p>
+
+<pre><code> PATH=/home/m1/davidf/Bureau/pje/arm-none-eabi-gcc-4_6/bin:$PATH
+</code></pre>
+
+<h2>Configuration de la librairie RFLPC</h2>
+
+<p>Nous avons donc récupéré à partir de l&#8217;archive la librairie <a href="http://hauspie.github.com/rflpc/">RFLPC</a>.</p>
+
+<p>Tout d&#8217;abord comme expliqué dans <a href="http://hauspie.github.com/rflpc/doc/index.html">la documentation</a> on paramètre le fichier Makefile.vars.</p>
+
+<p>Puis à la racine du dossier contenant la librairie RFLPC on execute la commande</p>
+
+<pre><code>make
+</code></pre>
+
+<p> qui configure la librairie avec notre compilateur et fabrique les fichiers .bin associés aux exemples.</p>
+
+<h2>Premiers tests</h2>
+
+<p>Pour tester notre chaîne de compilation, nous avons créé un nouveau dossier contenant un makefile généré par la librairie RFLPC.</p>
+
+<figure class='code'><figcaption><span>Makefile </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>OUTPUT_NAME=test
+</span><span class='line'>SRC=$(wildcard *.c)
+</span><span class='line'>OBJS=$(SRC:.c=.o)
+</span><span class='line'>
+</span><span class='line'>RFLPC_DIR=/Users/ben/rflpc
+</span><span class='line'>include $(RFLPC_DIR)/Makefile.in</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Puis on écrit un code de test en s&#8217;aidant de <a href="http://hauspie.github.com/rflpc/doc/index.html">la documentation</a> de la librairie pour faire clignoter une LED interne.</p>
+
+<figure class='code'><figcaption><span>led.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="n">rflpc_led_init</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">rflpc_led_set</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">RFLPC_DELAY</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">rflpc_led_clr</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">RFLPC_DELAY</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Puis il suffit de génèrer le .bin avec la commande</p>
+
+<pre><code>make
+</code></pre>
+
+<p>On télécharge le binaire sur le micro-processeur et la LED clignote comme prévu.</p>
+
+<p>Pour faire clignoter une LED externe, nous avons chercher les informations concernant le mapping entre les pattes du micro-processeur et les sorties de la carte dans les datasheets fourni avec la librairie.</p>
+
+<p>Il ne nous reste plus qu&#8217;a faire quelques tests avec une LED externe lors de la prochaine séance.</p>
+
+<h2>Conclusion</h2>
+
+<p>Cette phase de recherche et de configuration d&#8217;une chaîne de compilation nous a pris beaucoup plus de temps que nous l&#8217;avions prévu.
+Mais cela nous a permis de mieux comprendre la phase de génération d&#8217;un binaire pour micro-processeur et le mapping entre les pattes du micro-processeur et les entrée/sorties de la carte.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Découverte du microprocesseur et premiers montages]]></title>

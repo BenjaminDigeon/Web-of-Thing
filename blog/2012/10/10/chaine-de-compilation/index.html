@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog du projet Web-of-Thing</title>
+  <title>Chaîne de compilation - Blog du projet Web-of-Thing</title>
   <meta name="author" content="Benjamin Digeon">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://BenjaminDigeon.github.com/Web-of-Thing//">
+  <link rel="canonical" href="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/10/10/chaine-de-compilation/">
   <link href="/Web-of-Thing/favicon.png" rel="icon">
   <link href="/Web-of-Thing/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/Web-of-Thing/javascripts/modernizr-2.0.js"></script>
@@ -77,15 +77,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/Web-of-Thing/blog/2012/10/10/chaine-de-compilation/">Chaîne De Compilation</a></h1>
+      <h1 class="entry-title">Chaîne De Compilation</h1>
     
     
       <p class="meta">
@@ -108,7 +105,7 @@
   </header>
 
 
-  <div class="entry-content"><p>Afin de mettre en place notre chaine de compilation pour processeur ARM (cortex-M3), nous avons cherché les différentes méthodes possibles.</p>
+<div class="entry-content"><p>Afin de mettre en place notre chaine de compilation pour processeur ARM (cortex-M3), nous avons cherché les différentes méthodes possibles.</p>
 
 <p>Plusieurs chaînes de compilation sont listés sur le <a href="https://mbed.org/handbook/Exporting-to-offline-toolchains">wiki du site mbed.org</a>.</p>
 
@@ -218,22 +215,16 @@
 <p>Cette phase de recherche et de configuration d&#8217;une chaîne de compilation nous a pris beaucoup plus de temps que nous l&#8217;avions prévu.
 Mais cela nous a permis de mieux comprendre la phase de génération d&#8217;un binaire pour micro-processeur et le mapping entre les pattes du micro-processeur et les entrée/sorties de la carte.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/Web-of-Thing/blog/2012/09/26/decouverte-du-microprocesseur-et-premiers-montages/">Découverte Du Microprocesseur Et Premiers Montages</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Benjamin Digeon</span></span>
+
+      
 
 
 
@@ -245,164 +236,32 @@ Mais cela nous a permis de mieux comprendre la phase de génération d&#8217;un 
   
 
 
-<time datetime="2012-09-26T17:21:00+02:00" pubdate data-updated="true">Sep 26<span>th</span>, 2012</time>
-        
-      </p>
+<time datetime="2012-10-10T15:28:00+02:00" pubdate data-updated="true">Oct 10<span>th</span>, 2012</time>
+      
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><h2>Découverte du microprocesseur</h2>
-
-<p>La première étape du projet à était de découvrir le microprocesseur avec lequel nous allons travailler.</p>
-
-<p>Le microprocesseur à nôtre disposition est le <a href="http://mbed.org/">mbed</a>, un microprocesseur pour le prototypage rapide.</p>
-
-<p><img src="https://lh5.googleusercontent.com/-NBz7WuQRsjE/UGMvpI0HWpI/AAAAAAAAA8E/6G3YABsYtaA/s545/IMG_20120926_142127.jpg" width="250" height="350"></p>
-
-<p>Il contient un processeur <a href="http://www.arm.com/products/processors/cortex-m/cortex-m3.php">ARM Cortex-M3</a> cadencé à 96 MHz avec 512KB de FLASH pour le stockage et 32KB de RAM.</p>
-
-<p>On peut également lui ajouté des périphériques, par exemple :</p>
-
-<ul>
-<li>Un port ethernet pour la mise en réseau.</li>
-<li>Un port USB host pour le brancher à un stockage USB.</li>
-</ul>
-
-
-<p>Il contient plusieurs ports d&#8217;entrée/sortie analogique et numérique.</p>
-
-<p><img src="https://lh4.googleusercontent.com/-ulgbMkBnBsM/UGMvpO04kiI/AAAAAAAAA8A/qS-uLDRuDI4/s545/IMG_20120926_141849.jpg" width="250" height="350"></p>
-
-<h2>Premiers montages</h2>
-
-<h3>Led intégré</h3>
-
-<p>Pour commencer et découvrir l&#8217;IDE en ligne nous avons créer un premier programme qui fait clignoter la led déjà présente sur le circuit intégré.</p>
-
-<figure class='code'><figcaption><span>led.cpp ++ </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &quot;mbed.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">DigitalOut</span> <span class="n">myled</span><span class="p">(</span><span class="n">LED1</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">myled</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">wait</span><span class="p">(</span><span class="mf">0.2</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">myled</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">wait</span><span class="p">(</span><span class="mf">0.2</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>Led externe</h3>
-
-<p>Puis nous avons fait la même chose avec une led branché sur une des broches de sortie.</p>
-
-<p>Pour cela il a fallu lui adjoindre une résistance, et donc calculer la valeur de la résistance à partir des traits de couleur inscrit dessus.</p>
-
-<p><img src="https://lh5.googleusercontent.com/-nvcsVIQp4aU/UGMvtD5XhnI/AAAAAAAAA8Y/7h03UELHmpk/s545/IMG_20120926_143246.jpg" width="250" height="350"></p>
-
-<p>Et enfin il à suffi de modifier l&#8217;adresse du port de sortie de la Led dans notre côte, ici P5 à la place de LED1.</p>
-
-<p><img src="https://lh3.googleusercontent.com/-ttLDg7gJULQ/UGMvuxOy7jI/AAAAAAAAA8k/0DtkzPydi_k/s545/IMG_20120926_143926.jpg"></p>
-
-<iframe src="http://player.vimeo.com/video/50227349" width="500" height="333" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-
-
-<h3>Feu tricolor</h3>
-
-<p>Puis nous avons réaliser un montage un peu plus complexe, un feu tricolor. Il a donc fallut alterner l&#8217;alimentation de 3 broches relié a 3 LED pour créer le cycle d&#8217;un feu tricolor.</p>
-
-<iframe src="http://player.vimeo.com/video/50227348" width="500" height="333" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-
-
-
-
-<figure class='code'><figcaption><span>feu.cpp ++ </span></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &quot;mbed.h&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">DigitalOut</span> <span class="n">rouge</span><span class="p">(</span><span class="n">p5</span><span class="p">);</span>
-</span><span class='line'><span class="n">DigitalOut</span> <span class="n">jaune</span><span class="p">(</span><span class="n">p6</span><span class="p">);</span>
-</span><span class='line'><span class="n">DigitalOut</span> <span class="n">vert</span><span class="p">(</span><span class="n">p7</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="n">vert</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">jaune</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">rouge</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">wait</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">rouge</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">jaune</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">wait</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-</span><span class='line'>      <span class="n">jaune</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">vert</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>      <span class="n">wait</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Une horloge binaire</h2>
-
-<p>Ayant fini tout les objectifs de la scéance en très peu de temps et étant tout les deux des habitués de l&#8217;éléctronique et des microcontrôleurs.</p>
-
-<p>Nous avons désider de réaliser un montage un peu plus complexe, une horloge binaire.</p>
-
-<iframe src="http://player.vimeo.com/video/50227347" width="500" height="333" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-
-
-<p>Vous pouvez retrouver le code source du programme de l&#8217;horloge dans <a href="https://github.com/BenjaminDigeon/Web-of-Thing/">le repository GitHub du projet</a>, ce code est inspiré de celui de <a href="http://www.lagrottedubarbu.com/2009/12/30/lagrottedubarbu-saison-02-episode-06-horlogeultrabinaire/">la grotte du barbu</a> écrit initialement pour la plateforme Arduino.</p>
-
-<h2>Conclusion</h2>
-
-<p>Cette séance c&#8217;est très bien passé même et à était très intéressante surtout en découvrant un microprocesseur que l&#8217;on ne connaissait pas (autre des Arduino ou raspberry pi) et avec la mise en place de l&#8217;horloge binaire.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/10/10/chaine-de-compilation/" data-via="" data-counturl="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/10/10/chaine-de-compilation/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/Web-of-Thing/blog/2012/09/26/decouverte-du-microprocesseur-et-premiers-montages/" title="Previous Post: Découverte du microprocesseur et premiers montages">&laquo; Découverte du microprocesseur et premiers montages</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/Web-of-Thing/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -427,6 +286,7 @@ Mais cela nous a permis de mieux comprendre la phase de génération d&#8217;un 
 
   
 </aside>
+
 
     </div>
   </div>
