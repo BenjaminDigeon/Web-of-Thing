@@ -1,0 +1,23 @@
+0 : Mise a jour blog
+
+1.a : LED interne via chaine de compilation LPC/MBED
+
+1 : Spécification broches LPC : 
+  - Connexion aux broches du MBED
+  - LED Externe
+ 
+2 : Clignoter la LED à une fréquence :
+  - Soit boucle qui compte soit avec les intéruptions
+
+3 : Brancher prise ethernet
+  - Broche LPC / MBED
+  
+4 : Brancher la prise ethernet ==> allumer la LED 
+
+
+__ Chaine de compilation __
+
+Compilateur : arm-none-eabi-gcc
+Librairies pour le mbed : rfLPC
+
+
