@@ -1,0 +1,333 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mapping des broches du MBED et module ethernet - Blog du projet Web-of-Thing</title>
+  <meta name="author" content="Benjamin Digeon">
+
+  
+  <meta name="description" content="Faire clignoter une LED externe Pour allumer une LED externe avec la librairie rflpc, nous avons dû comprendre le système d&#8217;indexage qui nous &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/">
+  <link href="/Web-of-Thing/favicon.png" rel="icon">
+  <link href="/Web-of-Thing/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/Web-of-Thing/javascripts/modernizr-2.0.js"></script>
+  <script src="/Web-of-Thing/javascripts/ender.js"></script>
+  <script src="/Web-of-Thing/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/Web-of-Thing/atom.xml" rel="alternate" title="Blog du projet Web-of-Thing" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31671208-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/Web-of-Thing/">Blog du projet Web-of-Thing</a></h1>
+  
+    <h2>Benjamin Digeon et Florent David</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/Web-of-Thing/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:BenjaminDigeon.github.com/Web-of-Thing/" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/Web-of-Thing/">Blog</a></li>
+  <li><a href="https://plus.google.com/photos/114338839247568164815/albums/5792525924639663633">Album Google +</a></li>
+  <li><a href="https://vimeo.com/channels/398791">Channel Vimeo</a></li>
+  <li><a href="https://github.com/BenjaminDigeon/Web-of-Thing">GitHub du projet</a></li>
+  <li><a href="/Web-of-Thing/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mapping Des Broches Du MBED Et Module Ethernet</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-21T20:53:00+02:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Faire clignoter une LED externe</h2>
+
+<p>Pour allumer une LED externe avec la librairie rflpc, nous avons dû comprendre le système d&#8217;indexage qui nous permet de contrôler les pattes du mbed.</p>
+
+<p>Grâce aux documents, nous avons découvert un shéma présentant le mbed, ou chaque pattes est symbolisé avec son indexage sur la carte et un code associé avec un format bien particulier.</p>
+
+<pre><code>P(numéros de port de 0 à 4 ).(numéros de pin de 0 à 31). 
+</code></pre>
+
+<p>Par exemple dans notre test P1.31 correspond a la patte N°20 du mbed.</p>
+
+<p><img src="https://lh4.googleusercontent.com/-w-cqQqED3T8/UJTY0vXojwI/AAAAAAAAA9o/H-l_64omReI/s553/IMG_20121017_135317.jpg" width="250" height="350"></p>
+
+<p>Le code source de l&#8217;exemple :</p>
+
+<figure class='code'><figcaption><span>led_externe.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">rflpc_gpio_set_pin_mode_output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">rflpc_gpio_set_pin</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">RFLPC_DELAY</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">rflpc_gpio_clr_pin</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">RFLPC_DELAY</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Module ethernet</h2>
+
+<p>Pour connecter le  module Ethernet nous ne nous sommes pas heurté à de problème particulier.</p>
+
+<p>Et nous avons vite testé le code suivant permettant d&#8217;allumé ou d&#8217;éteindre une LED en fonction de l&#8217;établissement d&#8217;une connexion via le cable éthernet.</p>
+
+<p>Le code source de l&#8217;exemple (avec LED interne + LED externe) :</p>
+
+<figure class='code'><figcaption><span>ethernet.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">rflpc_led_init</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">rflpc_eth_init</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">rflpc_gpio_set_pin_mode_output</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'>      
+</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">rflpc_eth_link_state</span><span class="p">())</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_set</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">rflpc_gpio_set_pin</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_clr</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">rflpc_gpio_clr_pin</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">RFLPC_DELAY</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Vidéos</h3>
+
+<p>Led interne :</p>
+
+<iframe src="http://player.vimeo.com/video/52735626?badge=0" width="500" height="750" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+
+<p>Led externe :</p>
+
+<iframe src="http://player.vimeo.com/video/52735692?badge=0" width="500" height="750" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Benjamin Digeon</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-21T20:53:00+02:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/" data-via="" data-counturl="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/Web-of-Thing/blog/2012/10/10/chaine-de-compilation/" title="Previous Post: Chaîne de compilation">&laquo; Chaîne de compilation</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/">Mapping des broches du MBED et module ethernet</a>
+      </li>
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/10/10/chaine-de-compilation/">Chaîne de compilation</a>
+      </li>
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/09/26/decouverte-du-microprocesseur-et-premiers-montages/">Découverte du microprocesseur et premiers montages</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Benjamin Digeon -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

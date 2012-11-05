@@ -9,7 +9,7 @@
   <meta name="author" content="Benjamin Digeon">
 
   
-  <meta name="description" content="Afin de mettre en place notre chaine de compilation pour processeur ARM (cortex-M3), nous avons cherché les différentes méthodes possibles. Plusieurs &hellip;">
+  <meta name="description" content="Faire clignoter une LED externe Pour allumer une LED externe avec la librairie rflpc, nous avons dû comprendre le système d&#8217;indexage qui nous &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +79,157 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/Web-of-Thing/blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/">Mapping Des Broches Du MBED Et Module Ethernet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-21T20:53:00+02:00" pubdate data-updated="true">Oct 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Faire clignoter une LED externe</h2>
+
+<p>Pour allumer une LED externe avec la librairie rflpc, nous avons dû comprendre le système d&#8217;indexage qui nous permet de contrôler les pattes du mbed.</p>
+
+<p>Grâce aux documents, nous avons découvert un shéma présentant le mbed, ou chaque pattes est symbolisé avec son indexage sur la carte et un code associé avec un format bien particulier.</p>
+
+<pre><code>P(numéros de port de 0 à 4 ).(numéros de pin de 0 à 31). 
+</code></pre>
+
+<p>Par exemple dans notre test P1.31 correspond a la patte N°20 du mbed.</p>
+
+<p><img src="https://lh4.googleusercontent.com/-w-cqQqED3T8/UJTY0vXojwI/AAAAAAAAA9o/H-l_64omReI/s553/IMG_20121017_135317.jpg" width="250" height="350"></p>
+
+<p>Le code source de l&#8217;exemple :</p>
+
+<figure class='code'><figcaption><span>led_externe.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">rflpc_gpio_set_pin_mode_output</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">rflpc_gpio_set_pin</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">RFLPC_DELAY</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">rflpc_gpio_clr_pin</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">);</span>
+</span><span class='line'>      <span class="n">RFLPC_DELAY</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Module ethernet</h2>
+
+<p>Pour connecter le  module Ethernet nous ne nous sommes pas heurté à de problème particulier.</p>
+
+<p>Et nous avons vite testé le code suivant permettant d&#8217;allumé ou d&#8217;éteindre une LED en fonction de l&#8217;établissement d&#8217;une connexion via le cable éthernet.</p>
+
+<p>Le code source de l&#8217;exemple (avec LED interne + LED externe) :</p>
+
+<figure class='code'><figcaption><span>ethernet.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">rflpc_led_init</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">rflpc_eth_init</span><span class="p">();</span>
+</span><span class='line'>  <span class="n">rflpc_gpio_set_pin_mode_output</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'>      
+</span><span class='line'>  <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">rflpc_eth_link_state</span><span class="p">())</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_set</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">rflpc_gpio_set_pin</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_clr</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>          <span class="n">rflpc_gpio_clr_pin</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">RFLPC_DELAY</span><span class="p">(</span><span class="mi">1000000</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Vidéos</h3>
+
+<p>Led interne :</p>
+
+<iframe src="http://player.vimeo.com/video/52735626?badge=0" width="500" height="750" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+
+<p>Led externe :</p>
+
+<iframe src="http://player.vimeo.com/video/52735692?badge=0" width="500" height="750" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -408,6 +559,10 @@ Mais cela nous a permis de mieux comprendre la phase de génération d&#8217;un 
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/">Mapping des broches du MBED et module ethernet</a>
+      </li>
     
       <li class="post">
         <a href="/Web-of-Thing/blog/2012/10/10/chaine-de-compilation/">Chaîne de compilation</a>
