@@ -1,6 +1,6 @@
 /**
   * PJE Benjamin Digeon
-  * Comptage intéruptions
+  * Comptage interruptions
   */
 
 #include <rflpc17xx/rflpc17xx.h>
