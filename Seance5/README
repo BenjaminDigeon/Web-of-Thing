@@ -1,0 +1,29 @@
+mbed control pannel
+
+Photo du mbed
+
+avec les led
+
+si on clique sur les leds elle s'allume ou s'éteine
+
+HTML/Image => contenu statique
+
+LED interne
+2 led externe
+
+Lien entre la LED et le bouton
+
+Creation de l'applicaton mbed_control_pannel
+
+1 -> Créer un repetoire mbed_control_pannel dans apps/
+
+.c et .h files => Code pour allumé la LED
+.c with XML pour la page avec l'image et les boutons
+
+
+Plan article :
+
+ - Comment creer une app sur smews
+ - App statique
+ - App dynamique avec param en GET
+ - Debut d'implementation des actions pour les leds
