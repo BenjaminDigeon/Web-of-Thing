@@ -25,11 +25,23 @@
         <lastmod>2012-11-06T13:31:03+01:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/12/creation-dune-application-avec-smews/
+        </loc>
+        <lastmod>2012-12-05T14:15:27+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi/
+        </loc>
+        <lastmod>2012-12-05T14:35:45+01:00</lastmod>
+    </url>
+    <url>
         <loc>http://BenjaminDigeon.github.com/Web-of-Thing//blog/archives/</loc>
-        <lastmod>2012-11-06T13:31:03+01:00</lastmod>
+        <lastmod>2012-12-05T14:35:45+01:00</lastmod>
     </url>
     <url>
         <loc>http://BenjaminDigeon.github.com/Web-of-Thing//</loc>
-        <lastmod>2012-11-06T13:31:03+01:00</lastmod>
+        <lastmod>2012-12-05T14:35:45+01:00</lastmod>
     </url>
 </urlset>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Découverte de smews - Blog du projet Web-of-Thing</title>
+  <title>Commande de guirlande de LED avec une liaison SPI - Blog du projet Web-of-Thing</title>
   <meta name="author" content="Benjamin Digeon">
 
   
-  <meta name="description" content="Smews Smart &amp; Mobile Embedded Web Server Smews est une librairie permettant de mettre en place le principe de l&#8217;Internet des objet. Grace à &hellip;">
+  <meta name="description" content="Introduction à la liaison SPI Une liaison SPI (pour Serial Peripheral Interface) est un bus de données série synchrone. Les circuits communiquent &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/06/decouverte-de-smews/">
+  <link rel="canonical" href="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi/">
   <link href="/Web-of-Thing/favicon.png" rel="icon">
   <link href="/Web-of-Thing/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/Web-of-Thing/javascripts/modernizr-2.0.js"></script>
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Découverte De Smews</h1>
+      <h1 class="entry-title">Commande De Guirlande De LED Avec Une Liaison SPI</h1>
     
     
       <p class="meta">
@@ -98,65 +98,40 @@
   
 
 
-<time datetime="2012-11-06T13:12:00+01:00" pubdate data-updated="true">Nov 6<span>th</span>, 2012</time>
+<time datetime="2012-12-05T14:17:00+01:00" pubdate data-updated="true">Dec 5<span>th</span>, 2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>Smews</h2>
+<div class="entry-content"><h2>Introduction à la liaison SPI</h2>
 
-<p>Smart &amp; Mobile Embedded Web Server</p>
+<p>Une liaison SPI (pour Serial Peripheral Interface) est un bus de données série synchrone.</p>
 
-<p>Smews est une librairie permettant de mettre en place le principe de l&#8217;Internet des objet.</p>
+<p>Les circuits communiquent selon un schéma maître-esclaves, où le maître s&#8217;occupe totalement de la communication.</p>
 
-<p>Grace à Smews, des micro-processeurs tel que l&#8217;arduino ou le mbed peuvent héberger un serveur HTTP permettant de rendre un object connecté.</p>
+<p>Plusieurs esclaves peuvent coexister sur un bus, la sélection du destinataire se fait par une ligne dédiée entre le maître et l&#8217;esclave appelée chip select.</p>
 
-<p>Nous allons pouvoir utiliser ce serveur pour contrôler notre micro-processeur à distance.</p>
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/e/ed/SPI_single_slave.svg"></p>
 
-<h2>Instalation</h2>
+<h2>Guirlande LED HL1606</h2>
 
-<p>Pour fonctionner SMEWS nécessite plusieurs choses :</p>
+<p>Pour tester le principe de liaison SPI, on a mis à notre disposition une guirlande de type <a href="http://www.adafruit.com/datasheets/HL1606E.pdf">HL1606</a>.</p>
 
-<ul>
-<li>Un environnement de compilation en C pour la cible choisie, ici arm-none-eabi-gcc.</li>
-<li>Python en version 2.5 ou supérieure.</li>
-<li>Scons en version 0.96.</li>
-</ul>
+<p><img src="https://lh3.googleusercontent.com/-zulgYjIKj7M/UL9I1V0OjCI/AAAAAAAABU4/5QMeuzS7dBU/s727/IMG_20121128_133930.jpg"></p>
 
+<p><img src="https://lh3.googleusercontent.com/-W2dKbxZBeFA/UL9I1mL3PkI/AAAAAAAABU0/mKQCjOLcw60/s545/IMG_20121128_134901.jpg"></p>
 
-<p>Pour ma part il m’a juste fallu installer Scons.</p>
+<p>Comme il n&#8217;y avait qu&#8217;une seule guirlande pour tous les groupes, il a fallu la découper et jouer avec le fer à souder pour y intégrer des connecteurs.</p>
 
-<p>Puis lancer le script qui se trouve dans targets/mbed_ethernet pour télécharger et compiler la bibliothèque rflpc.</p>
+<p><img src="https://lh6.googleusercontent.com/-1WH01JaZGzk/UL9IyPs-TvI/AAAAAAAABUs/_GSJOv8wt4w/s545/IMG_20121128_160243.jpg"></p>
 
-<h2>Utilisation</h2>
+<h2>SPI avec RFLPC</h2>
 
-<p>Pour créer un binaire contenant le serveur web et l’application il suffit de lancer la commande scons suivante :</p>
+<p>Pour piloter la guirlande depuis le MBED, il faut pouvoir envoyer des informations sur la liaison SPI.</p>
 
-<pre><code>scons target=mbed_ethernet apps=mon_app
-</code></pre>
-
-<p>Avec mon_app le nom du dossier contenant l’application dans apps.</p>
-
-<p>Ici pour compiler l’exemple Welcome il a suffit de lancer :</p>
-
-<pre><code>scons target=mbed_ethernet apps=welcome ipaddr=192.168.1.2
-</code></pre>
-
-<p>Avec ipaddr l&#8217;adresse ip de notre serveur HTTP.</p>
-
-<h2>Test du binaire</h2>
-
-<p>On transfere le binaire dans le mbed puis on relie le mbed à l’ordinateur en configurant la plage d’adresse ip pour pouvoir accéder à l’adresse 192.168.1.2.</p>
-
-<p>On lance le navigateur à l’adresse 192.168.1.2</p>
-
-<p>Et cela nous affiche correctement la page welcome de Smews.</p>
-
-<h2>Conclusion</h2>
-
-<p>Lors de cette séance nous avons découvert Smews qui permet d&#8217;intégré un serveur web dans notre microcontroleur mbed, et nous avons réussi à générer l&#8217;affichage d&#8217;une page de test.</p>
+<p>La librairie RFLPC contient un <a href="http://hauspie.github.com/rflpc/doc/group__spi.html">module</a> pour s&#8217;interfacer avec la liaison SPI.</p>
 </div>
 
 
@@ -179,7 +154,7 @@
   
 
 
-<time datetime="2012-11-06T13:12:00+01:00" pubdate data-updated="true">Nov 6<span>th</span>, 2012</time>
+<time datetime="2012-12-05T14:17:00+01:00" pubdate data-updated="true">Dec 5<span>th</span>, 2012</time>
       
 
 
@@ -187,7 +162,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/06/decouverte-de-smews/" data-via="" data-counturl="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/06/decouverte-de-smews/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi/" data-via="" data-counturl="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi/" >Tweet</a>
   
   
   
@@ -196,10 +171,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/Web-of-Thing/blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/" title="Previous Post: Mapping des broches du MBED et module ethernet">&laquo; Mapping des broches du MBED et module ethernet</a>
+        <a class="basic-alignment left" href="/Web-of-Thing/blog/2012/11/12/creation-dune-application-avec-smews/" title="Previous Post: Création d'une application avec SMEWS">&laquo; Création d'une application avec SMEWS</a>
       
-      
-        <a class="basic-alignment right" href="/Web-of-Thing/blog/2012/11/12/creation-dune-application-avec-smews/" title="Next Post: Création d'une application avec SMEWS">Création d'une application avec SMEWS &raquo;</a>
       
     </p>
   </footer>

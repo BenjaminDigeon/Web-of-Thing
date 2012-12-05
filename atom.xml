@@ -4,7 +4,7 @@
   <title><![CDATA[Blog du projet Web-of-Thing]]></title>
   <link href="http://BenjaminDigeon.github.com/Web-of-Thing//atom.xml" rel="self"/>
   <link href="http://BenjaminDigeon.github.com/Web-of-Thing//"/>
-  <updated>2012-11-06T13:31:34+01:00</updated>
+  <updated>2012-12-05T14:36:09+01:00</updated>
   <id>http://BenjaminDigeon.github.com/Web-of-Thing//</id>
   <author>
     <name><![CDATA[Benjamin Digeon]]></name>
@@ -12,6 +12,260 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Commande de guirlande de LED avec une liaison SPI]]></title>
+    <link href="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi/"/>
+    <updated>2012-12-05T14:17:00+01:00</updated>
+    <id>http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi</id>
+    <content type="html"><![CDATA[<h2>Introduction à la liaison SPI</h2>
+
+<p>Une liaison SPI (pour Serial Peripheral Interface) est un bus de données série synchrone.</p>
+
+<p>Les circuits communiquent selon un schéma maître-esclaves, où le maître s&#8217;occupe totalement de la communication.</p>
+
+<p>Plusieurs esclaves peuvent coexister sur un bus, la sélection du destinataire se fait par une ligne dédiée entre le maître et l&#8217;esclave appelée chip select.</p>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/e/ed/SPI_single_slave.svg"></p>
+
+<h2>Guirlande LED HL1606</h2>
+
+<p>Pour tester le principe de liaison SPI, on a mis à notre disposition une guirlande de type <a href="http://www.adafruit.com/datasheets/HL1606E.pdf">HL1606</a>.</p>
+
+<p><img src="https://lh3.googleusercontent.com/-zulgYjIKj7M/UL9I1V0OjCI/AAAAAAAABU4/5QMeuzS7dBU/s727/IMG_20121128_133930.jpg"></p>
+
+<p><img src="https://lh3.googleusercontent.com/-W2dKbxZBeFA/UL9I1mL3PkI/AAAAAAAABU0/mKQCjOLcw60/s545/IMG_20121128_134901.jpg"></p>
+
+<p>Comme il n&#8217;y avait qu&#8217;une seule guirlande pour tous les groupes, il a fallu la découper et jouer avec le fer à souder pour y intégrer des connecteurs.</p>
+
+<p><img src="https://lh6.googleusercontent.com/-1WH01JaZGzk/UL9IyPs-TvI/AAAAAAAABUs/_GSJOv8wt4w/s545/IMG_20121128_160243.jpg"></p>
+
+<h2>SPI avec RFLPC</h2>
+
+<p>Pour piloter la guirlande depuis le MBED, il faut pouvoir envoyer des informations sur la liaison SPI.</p>
+
+<p>La librairie RFLPC contient un <a href="http://hauspie.github.com/rflpc/doc/group__spi.html">module</a> pour s&#8217;interfacer avec la liaison SPI.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Création d'une application avec SMEWS]]></title>
+    <link href="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/12/creation-dune-application-avec-smews/"/>
+    <updated>2012-11-12T09:07:00+01:00</updated>
+    <id>http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/12/creation-dune-application-avec-smews</id>
+    <content type="html"><![CDATA[<h2>Création d&#8217;une application avec SMEWS</h2>
+
+<p>La création d&#8217;une application avec SMEWS se fait simplement en ajoutant un nouveau dossier dans /apps/.</p>
+
+<p>Ce dossier contient les fichiers qui compose l&#8217;application, des pages HTML et des sources en C.</p>
+
+<h2>Application statique</h2>
+
+<p>Un exemple d&#8217;hello world avec SMEWS, une simple page HTML.</p>
+
+<figure class='code'><figcaption><span>index.html  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;HTML&gt;</span>
+</span><span class='line'>   <span class="nt">&lt;HEAD&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;TITLE&gt;</span>
+</span><span class='line'>         Hello
+</span><span class='line'>      <span class="nt">&lt;/TITLE&gt;</span>
+</span><span class='line'>   <span class="nt">&lt;/HEAD&gt;</span>
+</span><span class='line'><span class="nt">&lt;BODY&gt;</span>
+</span><span class='line'>   <span class="nt">&lt;P&gt;</span>Hello World<span class="nt">&lt;/P&gt;</span>
+</span><span class='line'><span class="nt">&lt;/BODY&gt;</span>
+</span><span class='line'><span class="nt">&lt;/HTML&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Application dynamique avec paramètre</h2>
+
+<p>Une petite application dynamique sous SMEWS, qui allume ou éteint une led interne en fonction d&#8217;un argument &#8220;on&#8221; passé en GET vers /do_led.</p>
+
+<figure class='code'><figcaption><span>led_arg.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">&lt;generator&gt;</span>
+</span><span class='line'><span class="cm">    &lt;handlers doGet=&quot;do_led&quot;/&gt;</span>
+</span><span class='line'><span class="cm">    &lt;args&gt;</span>
+</span><span class='line'><span class="cm">     &lt;arg name=&quot;on&quot; type=&quot;uint8&quot; /&gt;</span>
+</span><span class='line'><span class="cm">    &lt;/args&gt;</span>
+</span><span class='line'><span class="cm">&lt;/generator&gt;</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="nf">do_led</span><span class="p">(</span><span class="k">struct</span> <span class="n">args_t</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">rflpc_led_init</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">rep</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">on</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">rep</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_set</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_clr</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/* Adresse pour allumer : 192.168.1.2/led?on=1 */</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Implémentation de mbed_control_panel</h2>
+
+<p>Le travail à réaliser est une interface de controle pour les LED internes du Mbed, qui conserve l&#8217;état de la LED.</p>
+
+<figure class='code'><figcaption><span>led_arg.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">&lt;generator&gt;</span>
+</span><span class='line'><span class="cm"> &lt;handlers doGet=&quot;do_led&quot;/&gt;</span>
+</span><span class='line'><span class="cm"> &lt;args&gt;</span>
+</span><span class='line'><span class="cm">         &lt;arg name=&quot;ledIndex&quot; type=&quot;uint8&quot; /&gt;</span>
+</span><span class='line'><span class="cm">         &lt;arg name=&quot;state&quot; type=&quot;uint8&quot; /&gt;</span>
+</span><span class='line'><span class="cm">     &lt;/args&gt;</span>
+</span><span class='line'><span class="cm">&lt;/generator&gt;</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="nf">do_led</span><span class="p">(</span><span class="k">struct</span> <span class="n">args_t</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">ledIndex</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">ledIndex</span><span class="p">;</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">rflpc_led_init</span><span class="p">();</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="k">switch</span><span class="p">(</span><span class="n">ledIndex</span><span class="p">){</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="k">case</span> <span class="mi">1</span>:
+</span><span class='line'>          <span class="n">ledIndex</span> <span class="o">=</span> <span class="n">RFLPC_LED_1</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">case</span> <span class="mi">2</span>:
+</span><span class='line'>          <span class="n">ledIndex</span> <span class="o">=</span> <span class="n">RFLPC_LED_2</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">case</span> <span class="mi">3</span>:
+</span><span class='line'>          <span class="n">ledIndex</span> <span class="o">=</span> <span class="n">RFLPC_LED_3</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">case</span> <span class="mi">4</span>:
+</span><span class='line'>          <span class="n">ledIndex</span> <span class="o">=</span> <span class="n">RFLPC_LED_4</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nl">default:</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_set</span><span class="p">(</span><span class="n">ledIndex</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_clr</span><span class="p">(</span><span class="n">ledIndex</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pour gérer l&#8217;affichage de l&#8217;état dans la page HTML, il suffi d&#8217;ajouter un peu de Javascript.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Découverte de smews]]></title>

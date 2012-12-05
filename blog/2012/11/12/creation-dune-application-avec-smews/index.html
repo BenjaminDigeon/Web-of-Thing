@@ -1,0 +1,438 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Création d'une application avec SMEWS - Blog du projet Web-of-Thing</title>
+  <meta name="author" content="Benjamin Digeon">
+
+  
+  <meta name="description" content="Création d&#8217;une application avec SMEWS La création d&#8217;une application avec SMEWS se fait simplement en ajoutant un nouveau dossier dans / &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/12/creation-dune-application-avec-smews/">
+  <link href="/Web-of-Thing/favicon.png" rel="icon">
+  <link href="/Web-of-Thing/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/Web-of-Thing/javascripts/modernizr-2.0.js"></script>
+  <script src="/Web-of-Thing/javascripts/ender.js"></script>
+  <script src="/Web-of-Thing/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/Web-of-Thing/atom.xml" rel="alternate" title="Blog du projet Web-of-Thing" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-31671208-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/Web-of-Thing/">Blog du projet Web-of-Thing</a></h1>
+  
+    <h2>Benjamin Digeon et Florent David</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/Web-of-Thing/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:BenjaminDigeon.github.com/Web-of-Thing/" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/Web-of-Thing/">Blog</a></li>
+  <li><a href="https://plus.google.com/photos/114338839247568164815/albums/5792525924639663633">Album Google +</a></li>
+  <li><a href="https://vimeo.com/channels/398791">Channel Vimeo</a></li>
+  <li><a href="https://github.com/BenjaminDigeon/Web-of-Thing">GitHub du projet</a></li>
+  <li><a href="/Web-of-Thing/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Création D'une Application Avec SMEWS</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-12T09:07:00+01:00" pubdate data-updated="true">Nov 12<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Création d&#8217;une application avec SMEWS</h2>
+
+<p>La création d&#8217;une application avec SMEWS se fait simplement en ajoutant un nouveau dossier dans /apps/.</p>
+
+<p>Ce dossier contient les fichiers qui compose l&#8217;application, des pages HTML et des sources en C.</p>
+
+<h2>Application statique</h2>
+
+<p>Un exemple d&#8217;hello world avec SMEWS, une simple page HTML.</p>
+
+<figure class='code'><figcaption><span>index.html  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!DOCTYPE html PUBLIC &quot;-//IETF//DTD HTML 2.0//EN&quot;&gt;</span>
+</span><span class='line'><span class="nt">&lt;HTML&gt;</span>
+</span><span class='line'>   <span class="nt">&lt;HEAD&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;TITLE&gt;</span>
+</span><span class='line'>         Hello
+</span><span class='line'>      <span class="nt">&lt;/TITLE&gt;</span>
+</span><span class='line'>   <span class="nt">&lt;/HEAD&gt;</span>
+</span><span class='line'><span class="nt">&lt;BODY&gt;</span>
+</span><span class='line'>   <span class="nt">&lt;P&gt;</span>Hello World<span class="nt">&lt;/P&gt;</span>
+</span><span class='line'><span class="nt">&lt;/BODY&gt;</span>
+</span><span class='line'><span class="nt">&lt;/HTML&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Application dynamique avec paramètre</h2>
+
+<p>Une petite application dynamique sous SMEWS, qui allume ou éteint une led interne en fonction d&#8217;un argument &#8220;on&#8221; passé en GET vers /do_led.</p>
+
+<figure class='code'><figcaption><span>led_arg.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">&lt;generator&gt;</span>
+</span><span class='line'><span class="cm">    &lt;handlers doGet=&quot;do_led&quot;/&gt;</span>
+</span><span class='line'><span class="cm">    &lt;args&gt;</span>
+</span><span class='line'><span class="cm">     &lt;arg name=&quot;on&quot; type=&quot;uint8&quot; /&gt;</span>
+</span><span class='line'><span class="cm">    &lt;/args&gt;</span>
+</span><span class='line'><span class="cm">&lt;/generator&gt;</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="nf">do_led</span><span class="p">(</span><span class="k">struct</span> <span class="n">args_t</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">rflpc_led_init</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">rep</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">on</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">rep</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_set</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_clr</span><span class="p">(</span><span class="n">RFLPC_LED_1</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/* Adresse pour allumer : 192.168.1.2/led?on=1 */</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Implémentation de mbed_control_panel</h2>
+
+<p>Le travail à réaliser est une interface de controle pour les LED internes du Mbed, qui conserve l&#8217;état de la LED.</p>
+
+<figure class='code'><figcaption><span>led_arg.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cm">/*</span>
+</span><span class='line'><span class="cm">&lt;generator&gt;</span>
+</span><span class='line'><span class="cm"> &lt;handlers doGet=&quot;do_led&quot;/&gt;</span>
+</span><span class='line'><span class="cm"> &lt;args&gt;</span>
+</span><span class='line'><span class="cm">         &lt;arg name=&quot;ledIndex&quot; type=&quot;uint8&quot; /&gt;</span>
+</span><span class='line'><span class="cm">         &lt;arg name=&quot;state&quot; type=&quot;uint8&quot; /&gt;</span>
+</span><span class='line'><span class="cm">     &lt;/args&gt;</span>
+</span><span class='line'><span class="cm">&lt;/generator&gt;</span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#include &lt;rflpc17xx/rflpc17xx.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">static</span> <span class="kt">char</span> <span class="nf">do_led</span><span class="p">(</span><span class="k">struct</span> <span class="n">args_t</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">ledIndex</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">ledIndex</span><span class="p">;</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="n">args</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">rflpc_led_init</span><span class="p">();</span>
+</span><span class='line'>  
+</span><span class='line'>      <span class="k">switch</span><span class="p">(</span><span class="n">ledIndex</span><span class="p">){</span>
+</span><span class='line'>  
+</span><span class='line'>          <span class="k">case</span> <span class="mi">1</span>:
+</span><span class='line'>          <span class="n">ledIndex</span> <span class="o">=</span> <span class="n">RFLPC_LED_1</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">case</span> <span class="mi">2</span>:
+</span><span class='line'>          <span class="n">ledIndex</span> <span class="o">=</span> <span class="n">RFLPC_LED_2</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">case</span> <span class="mi">3</span>:
+</span><span class='line'>          <span class="n">ledIndex</span> <span class="o">=</span> <span class="n">RFLPC_LED_3</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">case</span> <span class="mi">4</span>:
+</span><span class='line'>          <span class="n">ledIndex</span> <span class="o">=</span> <span class="n">RFLPC_LED_4</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="nl">default:</span>
+</span><span class='line'>          <span class="k">break</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_set</span><span class="p">(</span><span class="n">ledIndex</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>          <span class="n">rflpc_led_clr</span><span class="p">(</span><span class="n">ledIndex</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pour gérer l&#8217;affichage de l&#8217;état dans la page HTML, il suffi d&#8217;ajouter un peu de Javascript.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Benjamin Digeon</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-12T09:07:00+01:00" pubdate data-updated="true">Nov 12<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/12/creation-dune-application-avec-smews/" data-via="" data-counturl="http://BenjaminDigeon.github.com/Web-of-Thing//blog/2012/11/12/creation-dune-application-avec-smews/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/Web-of-Thing/blog/2012/11/06/decouverte-de-smews/" title="Previous Post: Découverte de smews">&laquo; Découverte de smews</a>
+      
+      
+        <a class="basic-alignment right" href="/Web-of-Thing/blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi/" title="Next Post: Commande de guirlande de LED avec une liaison SPI">Commande de guirlande de LED avec une liaison SPI &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi/">Commande de guirlande de LED avec une liaison SPI</a>
+      </li>
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/11/12/creation-dune-application-avec-smews/">Création d'une application avec SMEWS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/11/06/decouverte-de-smews/">Découverte de smews</a>
+      </li>
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/">Mapping des broches du MBED et module ethernet</a>
+      </li>
+    
+      <li class="post">
+        <a href="/Web-of-Thing/blog/2012/10/10/chaine-de-compilation/">Chaîne de compilation</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Benjamin Digeon -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
