@@ -9,7 +9,7 @@
   <meta name="author" content="Benjamin Digeon">
 
   
-  <meta name="description" content="Introduction à la liaison SPI Une liaison SPI (pour Serial Peripheral Interface) est un bus de données série synchrone. Les circuits communiquent &hellip;">
+  <meta name="description" content="Bibliothèque de contrôle de LED Strip Initialisation du SPI Pour initialiser la liasion SPI nous avons récuperé le code de l&#8217;exemple de &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +79,138 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/Web-of-Thing/blog/2012/12/23/led-strip-et-matrice-de-led/">Led Strip Et Matrice De Led</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-23T16:56:00+01:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Bibliothèque de contrôle de LED Strip</h2>
+
+<h2>Initialisation du SPI</h2>
+
+<p>Pour initialiser la liasion SPI nous avons récuperé le code de l&#8217;exemple de LED_matrix dans les apps SMEWS qui permet d&#8217;initialiser la liasion SPI.</p>
+
+<p>Et nous avons aussi défini les séquences de bit de contrôle pour chaque couleur primaire pour pouvoir les utilisés plus facilement plus tard.</p>
+
+<p>NB : Nous nous sommes limité aux couleurs primaires à cause du manque d&#8217;alimentation, en effet le MBED (sans alimentation externe) ne permet que d&#8217;alimenter 30 LED RGB ce qui nous a limité dans le choix des couleurs.</p>
+
+<figure class='code'><figcaption><span>lib_led_strip.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#define SPI_PORT RFLPC_SPI0</span>
+</span><span class='line'><span class="cp">#define NLED 30</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define SPI_WRITE(val) rflpc_spi_write(SPI_PORT, (val))</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define SPI_INIT do { \</span>
+</span><span class='line'><span class="cp">   int spi_peripheral_clock = rflpc_clock_get_system_clock() / 8; \</span>
+</span><span class='line'><span class="cp">   int needed_divider = spi_peripheral_clock / 125000; \</span>
+</span><span class='line'><span class="cp">   int serial_clock_rate_divider = 1; \</span>
+</span><span class='line'><span class="cp">   while (needed_divider / serial_clock_rate_divider &gt; 254) \</span>
+</span><span class='line'><span class="cp">      serial_clock_rate_divider++; \</span>
+</span><span class='line'><span class="cp">   needed_divider /= serial_clock_rate_divider; \</span>
+</span><span class='line'><span class="cp">   rflpc_spi_init(SPI_PORT, RFLPC_SPI_MASTER, RFLPC_CCLK_8, 8, needed_divider, serial_clock_rate_divider); \</span>
+</span><span class='line'><span class="cp">   }while(0);</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define INIT_WAIT do { \</span>
+</span><span class='line'><span class="cp">   rflpc_timer_enable(RFLPC_TIMER3); \</span>
+</span><span class='line'><span class="cp">   rflpc_timer_set_clock(RFLPC_TIMER3,RFLPC_CCLK/8);\</span>
+</span><span class='line'><span class="cp">   rflpc_timer_set_pre_scale_register(RFLPC_TIMER3, rflpc_clock_get_system_clock()/8000000); </span><span class="cm">/* microsecond timer */</span><span class="cp"> \</span>
+</span><span class='line'><span class="cp">   rflpc_timer_start(RFLPC_TIMER3); \</span>
+</span><span class='line'><span class="cp">  } while (0)</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#define BLEU  0b10110000</span>
+</span><span class='line'><span class="cp">#define ROUGE  0b11001100    </span>
+</span><span class='line'><span class="cp">#define VERT  0b11000011</span>
+</span><span class='line'><span class="cp">#define CLEAR  0b11000000</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Exemple d&#8217;animation de la guirlande</h3>
+
+<p>Un exemple simple de fonction qui allume chaque LED de la guirlande dans une couleur.</p>
+
+<figure class='code'><figcaption><span>lib_led_strip.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="kt">void</span> <span class="n">unie</span> <span class="p">(</span><span class="kt">uint16_t</span> <span class="n">coul</span><span class="p">){</span>
+</span><span class='line'>  <span class="kt">int</span> <span class="n">i</span> <span class="p">;</span>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">NLED</span> <span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">SPI_WRITE</span><span class="p">(</span><span class="n">coul</span><span class="p">)</span> <span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Bibliothèque de contrôle de matrice de LED</h2>
+
+<p>Le contrôle de la matrice de LED repose sur le même principe, on envois les 64 couleurs de LED qui compose la matrice.</p>
+
+<p><img src="https://lh5.googleusercontent.com/-6K5iL3RGexg/UNcrJRfdeqI/AAAAAAAABXE/WPuPpZNzHCo/s900/DSC_0015.jpg"></p>
+
+<h2>Intégration dans des applications SMEWS</h2>
+
+<p>Pour l&#8217;intégration avec SMEWS nous avons réalisé 2 applications simple en HTML + Javascript, qui appelle des controleurs en GET qui execute une fonction avec une ou plusieurs couleurs choisies.</p>
+
+<p>Nous avons bien conscience de l&#8217;aspect purement mono-utilisateur et bloquant de cette méthode mais nous n&#8217;avons pas eu le temps pour approfondir l&#8217;aspect multitâche des applications SMEWS.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -956,6 +1088,10 @@ Mais cela nous a permis de mieux comprendre la phase de génération d&#8217;un 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/Web-of-Thing/blog/2012/12/23/led-strip-et-matrice-de-led/">Led Strip et Matrice de Led</a>
+      </li>
+    
+      <li class="post">
         <a href="/Web-of-Thing/blog/2012/12/05/commande-de-guirlande-de-led-avec-le-protocole-spi/">Commande de guirlande de LED avec une liaison SPI</a>
       </li>
     
@@ -969,10 +1105,6 @@ Mais cela nous a permis de mieux comprendre la phase de génération d&#8217;un 
     
       <li class="post">
         <a href="/Web-of-Thing/blog/2012/10/21/mapping-des-broches-du-mbed-et-module-ethernet/">Mapping des broches du MBED et module ethernet</a>
-      </li>
-    
-      <li class="post">
-        <a href="/Web-of-Thing/blog/2012/10/10/chaine-de-compilation/">Chaîne de compilation</a>
       </li>
     
   </ul>
