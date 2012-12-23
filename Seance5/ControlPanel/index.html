@@ -1,5 +1,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<script type="text/javascript">
+
+        function switchLed(ledI, state) {
+		var url = "/led?ledIndex="+ledI+"&state="+state;
+
+		var xhr = new XMLHttpRequest();
+
+
+		xhr.open("GET", url, true);
+		xhr.send(null);
+
+
+		if(state=='1') {
+			document.getElementById("LED"+ledI).onclick = function(){switchLed(ledI, '0');} ;
+		} else {
+			document.getElementById("LED"+ledI).onclick = function(){switchLed(ledI, '1');} ;
+		}
+
+		
+        }
+
+
+    	</script>
 	<head>
 		<title> MBED control panel </title>
 	</head>
@@ -9,6 +32,9 @@
 	</body>
 	
 	<form action="app_led" method=post>
-		<input type="submit" value="LED1" />
+		<input id="LED1" type="button" value="LED1" onclick="switchLed('1', '1');" />
+		<input id="LED2" type="button" value="LED2" onclick="switchLed('2', '1');"/>
+		<input id="LED3" type="button" value="LED3" onclick="switchLed('3', '1');"/>
+		<input id="LED4" type="button" value="LED4" onclick="switchLed('4', '1');"/>
 	</form>
 </html>

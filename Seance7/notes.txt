@@ -1,0 +1,28 @@
+Guirlande de LED en série
+
+Controleur HL 1606
+
+En entrée
+
+GND -> GND
+SI -> Sync/speed clock input
+DI -> Data input
+CI -> Clock input 
+U  -> Latch signal / buffer output
+5V -> 5V
+
+Librairie pour le control : https://github.com/adafruit/HL1606-LED-Strip-PWM
+
+Faux
+ Utiliser le protocole SPI déja implementé dans RFLPC
+ 
+Branchements :
+
+GND  -> GND 
+SI   -> GND
+Mosi -> DI
+Miso -> X
+Sck  -> CI
+5V   -> 5V
+
+Sur le pin8 le latch
